@@ -207,6 +207,18 @@ func (o *ExtractOptions) extractCommand(command string) error {
 			AsZip:                true,
 		},
 		{
+			OS:      "windows",
+			Arch:    "arm64",
+			Command: "oc",
+			NewArch: true,
+			Mapping: extract.Mapping{Image: "cli-artifacts", From: "usr/share/openshift/windows_arm64/oc.exe"},
+
+			Readme:               readmeCLIWindows,
+			InjectReleaseVersion: true,
+			ArchiveFormat:        "openshift-client-windows-arm64-%s.zip",
+			AsZip:                true,
+		},
+		{
 			OS:      "darwin",
 			Arch:    "amd64",
 			Command: "openshift-install",
