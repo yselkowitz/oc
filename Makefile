@@ -107,10 +107,17 @@ cross-build-darwin-arm64:
 	+@GOOS=darwin GOARCH=arm64 $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_DARWIN)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/darwin_arm64
 .PHONY: cross-build-darwin-arm64
 
-cross-build-windows-amd64: generate-versioninfo
+cross-build-windows-amd64:
+	+@GOARCH=amd64 $(MAKE) generate-versioninfo
 	+@GOOS=windows GOARCH=amd64 $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_WINDOWS)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/windows_amd64
 	$(RM) cmd/oc/oc.syso
 .PHONY: cross-build-windows-amd64
+
+cross-build-windows-arm64:
+	+@GOARCH=arm64 $(MAKE) generate-versioninfo
+	+@GOOS=windows GOARCH=arm64 $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_WINDOWS)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/windows_arm64
+	$(RM) cmd/oc/oc.syso
+.PHONY: cross-build-windows-arm64
 
 cross-build-linux-amd64:
 	+@GOOS=linux GOARCH=amd64 $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_LINUX_CROSS)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/linux_amd64
@@ -128,7 +135,7 @@ cross-build-linux-s390x:
 	+@GOOS=linux GOARCH=s390x $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_LINUX_CROSS)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/linux_s390x
 .PHONY: cross-build-linux-s390x
 
-cross-build: cross-build-darwin-amd64 cross-build-darwin-arm64 cross-build-windows-amd64 cross-build-linux-amd64 cross-build-linux-arm64 cross-build-linux-ppc64le cross-build-linux-s390x
+cross-build: cross-build-darwin-amd64 cross-build-darwin-arm64 cross-build-windows-amd64 cross-build-windows-arm64 cross-build-linux-amd64 cross-build-linux-arm64 cross-build-linux-ppc64le cross-build-linux-s390x
 .PHONY: cross-build
 
 clean-cross-build:

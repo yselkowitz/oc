@@ -55,7 +55,12 @@ function os::build::generate_windows_versioninfo() {
        }
 }
 EOF
-  goversioninfo -o ${OS_ROOT}/cmd/oc/oc.syso ${windows_versioninfo_file}
+  local goversioninfo_flags
+  case ${GOARCH} in
+    amd64) goversioninfo_flags="-64" ;;
+    arm64) goversioninfo_flags="-64 -arm" ;;
+  esac
+  goversioninfo ${goversioninfo_flags} -o ${OS_ROOT}/cmd/oc/oc.syso ${windows_versioninfo_file}
 }
 readonly -f os::build::generate_windows_versioninfo
 
